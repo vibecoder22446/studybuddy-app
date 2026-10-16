@@ -1,0 +1,10 @@
+{
+  "name": "StudyBuddy Study Assistant",
+  "short_name": "StudyBuddy",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#f4f6ff",
+  "theme_color": "#4338ca",
+  "description": "A simple study companion with quizzes, revision notes, and daily goals.",
+  "icons": []
+}

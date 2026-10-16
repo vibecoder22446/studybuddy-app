@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#4338ca">
+<link rel="manifest" href="manifest.json">
+<title>StudyBuddy</title>
+<style>
+:root{--ink:#172554;--muted:#64748b;--brand:#4338ca;--bg:#f4f6ff;--card:#fff;--line:#e2e8f0;--good:#15803d;--bad:#b91c1c}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:#172033;font:16px/1.45 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+header{background:linear-gradient(135deg,#172554,#4338ca);color:white;padding:24px 18px 20px;border-radius:0 0 24px 24px}
+.wrap{max-width:760px;margin:auto;padding:0 14px 30px}header .wrap{padding:0}
+.brandrow{display:flex;align-items:center;gap:12px}.logo{width:52px;height:52px;border-radius:16px;background:#fff;color:#4338ca;display:grid;place-items:center;font-size:27px}
+h1{font-size:26px;margin:0}header p{margin:8px 0 0;color:#dbeafe}
+.tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:18px 0}
+.tab{border:1px solid var(--line);border-radius:13px;background:white;padding:12px 5px;font-weight:700;color:#334155;cursor:pointer}
+.tab.active{background:var(--brand);color:white;border-color:var(--brand)}
+.panel{display:none}.panel.active{display:block}.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:17px;margin-bottom:13px;box-shadow:0 4px 16px #17255408}
+h2{font-size:20px;margin:0 0 8px}h3{font-size:16px;margin:0 0 8px}.muted{color:var(--muted);font-size:14px}
+.btn{background:var(--brand);color:white;border:0;border-radius:12px;padding:12px 15px;font-weight:700;font-size:15px;cursor:pointer;width:100%;margin-top:9px}
+.btn.secondary{background:#eef2ff;color:#3730a3}.btn.small{width:auto;margin:0;padding:8px 12px}
+input,select,textarea{font:inherit;width:100%;padding:12px;border:1px solid #cbd5e1;border-radius:11px;background:white;margin:5px 0 10px}
+.option{display:block;width:100%;text-align:left;border:1px solid var(--line);background:#fff;padding:12px;border-radius:12px;margin:8px 0;cursor:pointer;color:#172033}
+.option.correct{border-color:#16a34a;background:#f0fdf4}.option.wrong{border-color:#dc2626;background:#fef2f2}
+.pill{display:inline-block;border-radius:999px;background:#eef2ff;color:#3730a3;padding:4px 9px;font-size:12px;font-weight:700}
+.progress{height:9px;background:#e2e8f0;border-radius:99px;overflow:hidden;margin:10px 0}.progress span{display:block;height:100%;background:#4f46e5;width:0}
+.note{border-left:4px solid #818cf8;padding:10px 12px;background:#f8fafc;border-radius:0 10px 10px 0;margin:10px 0}
+.checkrow{display:flex;align-items:center;gap:10px}.checkrow input{width:20px;height:20px;margin:0}
+footer{text-align:center;color:var(--muted);font-size:12px;padding:12px}
+</style>
+</head>
+<body>
+<header><div class="wrap"><div class="brandrow"><div class="logo">🎓</div><div><h1>StudyBuddy</h1><div>Study smarter. Score higher.</div></div></div><p>Your simple study companion — quizzes, notes, and daily goals.</p></div></header>
+<main class="wrap">
+<nav class="tabs" aria-label="Main sections">
+<button class="tab active" data-tab="quiz">🧠 Quiz</button><button class="tab" data-tab="notes">📚 Notes</button><button class="tab" data-tab="goals">🎯 Goals</button>
+</nav>
+<section id="quiz" class="panel active">
+<div class="card"><span class="pill">PRACTICE</span><h2 style="margin-top:9px">Quick science quiz</h2><p class="muted">Try these 5 beginner questions. Choose an answer to get feedback and your score.</p><div class="progress"><span id="quizbar"></span></div><div id="quizarea"></div></div>
+<div class="card"><h3>Your best score</h3><div style="font-size:28px;font-weight:800" id="bestscore">0 / 5</div><p class="muted">Saved on this device.</p></div>
+</section>
+<section id="notes" class="panel">
+<div class="card"><span class="pill">REVISION NOTES</span><h2 style="margin-top:9px">Science quick notes</h2><label for="subject">Choose a topic</label><select id="subject"><option value="electricity">Current electricity</option><option value="force">Force and motion</option><option value="biology">Cell biology</option></select><div id="notetext"></div><button class="btn secondary" id="copyNotes">Select notes text</button><p class="muted" id="copyMsg">Tip: revise the key terms, then test yourself in the Quiz tab.</p></div>
+<div class="card"><h3>Make your own note</h3><label for="customTitle">Title</label><input id="customTitle" placeholder="e.g. Ohm's Law"><label for="customNote">Your note</label><textarea id="customNote" rows="3" placeholder="Write a short summary..."></textarea><button class="btn" id="saveNote">Save note</button><div id="savedNotes"></div></div>
+</section>
+<section id="goals" class="panel">
+<div class="card"><span class="pill">TODAY</span><h2 style="margin-top:9px">Daily study goals</h2><p class="muted">Choose a realistic target and check off each task as you finish it.</p><label for="minutes">Today's study target (minutes)</label><input type="number" id="minutes" min="5" max="600" step="5" value="30"><button class="btn secondary" id="saveTarget">Save target</button><div class="progress"><span id="goalbar"></span></div><p id="goalstatus" class="muted"></p><div id="goalList"></div><label for="newGoal">Add a study task</label><input id="newGoal" placeholder="e.g. Revise electricity formulas"><button class="btn" id="addGoal">Add task</button></div>
+<div class="card"><h3>Your progress</h3><p id="progressSummary" class="muted">Finish a task to begin tracking your progress.</p><button class="btn secondary" id="resetGoals">Reset today's checklist</button></div>
+</section>
+<footer>StudyBuddy • Free starter version • Your progress stays on this device.</footer>
+</main>
+<script>
+const $=id=>document.getElementById(id);
+const read=(k,d)=>{try{return JSON.parse(localStorage.getItem('sb_'+k))??d}catch{return d}};
+const save=(k,v)=>localStorage.setItem('sb_'+k,JSON.stringify(v));
+document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x===b));document.querySelectorAll('.panel').forEach(x=>x.classList.toggle('active',x.id===b.dataset.tab));}));
+const questions=[
+{q:'What is the SI unit of electric current?',a:['Volt','Ampere','Ohm','Watt'],correct:1,why:'Electric current is measured in amperes (A).'},
+{q:'Which instrument measures potential difference?',a:['Ammeter','Thermometer','Voltmeter','Barometer'],correct:2,why:'A voltmeter measures potential difference in volts.'},
+{q:'What is the SI unit of resistance?',a:['Ohm','Watt','Joule','Ampere'],correct:0,why:'Electrical resistance is measured in ohms (Ω).'},
+{q:'Which formula represents Ohm’s law?',a:['V = IR','P = mV','F = ma²','I = VR'],correct:0,why:'Ohm’s law states V = IR when physical conditions remain constant.'},
+{q:'What is the SI unit of power?',a:['Newton','Joule','Watt','Coulomb'],correct:2,why:'Power is measured in watts (W).'}
+];
+let qi=0,score=0,answered=false;
+function showQuestion(){let area=$('quizarea');answered=false;if(qi>=questions.length){area.innerHTML=`<h3>Quiz complete! 🎉</h3><p>You scored <b>${score} / ${questions.length}</b>.</p><button class="btn" id="again">Try again</button>`;$('again').onclick=()=>{qi=0;score=0;showQuestion()};$('quizbar').style.width='100%';let best=read('best',0);if(score>best){best=score;save('best',best)}$('bestscore').textContent=best+' / 5';return}
+let q=questions[qi];$('quizbar').style.width=(qi/questions.length*100)+'%';area.innerHTML=`<p class="muted">Question ${qi+1} of ${questions.length}</p><h3>${q.q}</h3><div id="options">${q.a.map((x,i)=>`<button class="option" data-i="${i}">${String.fromCharCode(65+i)}. ${x}</button>`).join('')}</div><p id="feedback" class="muted" aria-live="polite"></p><button class="btn" id="next" disabled>${qi===questions.length-1?'Finish quiz':'Next question'}</button>`;
+area.querySelectorAll('.option').forEach(btn=>btn.onclick=()=>{if(answered)return;answered=true;let chosen=+btn.dataset.i;if(chosen===q.correct)score++;area.querySelectorAll('.option').forEach((b,i)=>{if(i===q.correct)b.classList.add('correct');else if(i===chosen)b.classList.add('wrong');b.disabled=true});$('feedback').textContent=(chosen===q.correct?'Correct! ':'Not quite. ')+q.why;$('next').disabled=false;});$('next').onclick=()=>{qi++;showQuestion()};}
+$('bestscore').textContent=read('best',0)+' / 5';showQuestion();
+const notes={
+electricity:[['Electric current','The rate of flow of electric charge. Symbol: I. SI unit: ampere (A).'],['Potential difference','Energy transferred per unit charge. Symbol: V. SI unit: volt (V).'],['Resistance and Ohm’s law','Resistance opposes current. SI unit: ohm (Ω). Ohm’s law: V = IR, when temperature and other physical conditions remain constant.'],['Electric power','Rate at which electrical energy is transferred. P = VI. SI unit: watt (W).']],
+force:[['Force','A push or pull that can change an object’s motion or shape. SI unit: newton (N).'],['Newton’s second law','The net force on an object equals mass × acceleration: F = ma.'],['Speed and velocity','Speed is distance per unit time. Velocity is displacement per unit time and includes direction.'],['Acceleration','Rate of change of velocity with time. SI unit: m/s².']];
+biology:[['Cell','The basic structural and functional unit of living organisms.'],['Nucleus','Contains genetic material and helps control cell activities.'],['Cell membrane','A selectively permeable boundary that regulates movement of substances in and out.'],['Mitochondria','Organelles where much of aerobic cellular respiration occurs and ATP is produced.']]
+};
+function renderNotes(){let key=$('subject').value;$('notetext').innerHTML=notes[key].map(n=>`<div class="note"><b>${n[0]}</b><br>${n[1]}</div>`).join('')};$('subject').onchange=renderNotes;renderNotes();
+$('copyNotes').onclick=()=>{let text=notes[$('subject').value].map(n=>n[0]+'\n'+n[1]).join('\n\n');let ta=document.createElement('textarea');ta.value=text;document.body.appendChild(ta);ta.select();let ok=document.execCommand('copy');ta.remove();$('copyMsg').textContent=ok?'Notes selected/copied where supported. You can also select and copy them manually.':'Select the notes text manually to copy it.'};
+function renderSavedNotes(){let arr=read('notes',[]);$('savedNotes').innerHTML=arr.length?'<h3 style="margin-top:16px">Saved notes</h3>'+arr.map((n,i)=>`<div class="note"><b>${escapeHtml(n.title)}</b><br>${escapeHtml(n.body)}<br><button class="btn small secondary" data-del="${i}" style="margin-top:8px">Delete</button></div>`).join(''):'<p class="muted">No personal notes saved yet.</p>';document.querySelectorAll('[data-del]').forEach(b=>b.onclick=()=>{let a=read('notes',[]);a.splice(+b.dataset.del,1);save('notes',a);renderSavedNotes()})}
+function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+$('saveNote').onclick=()=>{let title=$('customTitle').value.trim(),body=$('customNote').value.trim();if(!title||!body){alert('Please enter both a title and note.');return}let arr=read('notes',[]);arr.unshift({title,body});save('notes',arr);$('customTitle').value='';$('customNote').value='';renderSavedNotes()};renderSavedNotes();
+let goals=read('goals',[{text:'Study for 15 minutes',done:false},{text:'Review one topic',done:false},{text:'Answer 5 practice questions',done:false}]);
+function renderGoals(){let target=Number(read('target',30));$('minutes').value=target;$('goalList').innerHTML=goals.map((g,i)=>`<div class="card checkrow" style="padding:12px;margin:8px 0"><input type="checkbox" data-goal="${i}" ${g.done?'checked':''}><label style="flex:1;${g.done?'text-decoration:line-through;color:#64748b':''}">${escapeHtml(g.text)}</label><button class="btn small secondary" data-remove="${i}" aria-label="Remove task">×</button></div>`).join('');document.querySelectorAll('[data-goal]').forEach(c=>c.onchange=()=>{goals[+c.dataset.goal].done=c.checked;save('goals',goals);renderGoals()});document.querySelectorAll('[data-remove]').forEach(b=>b.onclick=()=>{goals.splice(+b.dataset.remove,1);save('goals',goals);renderGoals()});let done=goals.filter(g=>g.done).length;let pct=goals.length?done/goals.length*100:0;$('goalbar').style.width=pct+'%';$('goalstatus').textContent=`${done} of ${goals.length} tasks completed • Target: ${target} minutes`;$('progressSummary').textContent=done===goals.length&&goals.length?'Excellent work — all tasks are complete!':`You've completed ${done} of ${goals.length} tasks. Keep going!`}
+$('saveTarget').onclick=()=>{let v=Math.max(5,Math.min(600,Number($('minutes').value)||30));save('target',v);renderGoals()};$('addGoal').onclick=()=>{let v=$('newGoal').value.trim();if(!v)return;goals.push({text:v,done:false});save('goals',goals);$('newGoal').value='';renderGoals()};$('resetGoals').onclick=()=>{if(confirm('Reset the checklist?')){goals=goals.map(g=>({...g,done:false}));save('goals',goals);renderGoals()}};renderGoals();
+if('serviceWorker' in navigator && location.protocol.startsWith('http')) navigator.serviceWorker.register('./sw.js').catch(()=>{});
+</script>
+</body></html>
